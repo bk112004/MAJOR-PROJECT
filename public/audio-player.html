@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Player</title>
+</head>
+<body>
+    <script>
+        // Create the audio element
+        const audio = document.createElement('audio');
+        audio.src = 'music.mp3'; // Path to your audio file
+        audio.loop = true; // Enable looping
+        document.body.appendChild(audio);
+
+        // Restore playback time and play status
+        const savedTime = localStorage.getItem('audioCurrentTime');
+        if (savedTime) {
+            audio.currentTime = parseFloat(savedTime);
+        }
+
+        if (localStorage.getItem('audioPlaying') === 'true') {
+            audio.play();
+        }
+
+        // Update current time before navigating away
+        window.addEventListener('beforeunload', () => {
+            localStorage.setItem('audioCurrentTime', audio.currentTime);
+        });
+
+        // Listen for play/pause messages from parent
+        window.addEventListener('message', (event) => {
+            if (event.data === 'playAudio') {
+                if (audio.paused) {
+                    audio.play();
+                    localStorage.setItem('audioPlaying', 'true');
+                }
+            } else if (event.data === 'pauseAudio') {
+                if (!audio.paused) {
+                    audio.pause();
+                    localStorage.setItem('audioPlaying', 'false');
+                }
+            }
+        });
+    </script>
+</body>
+</html>

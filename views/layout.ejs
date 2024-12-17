@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+</head>
+<body>
+    <!-- Persistent audio element -->
+    <audio id="background-audio" src="/music.mp3" loop autoplay></audio>
+
+    <!-- Page-specific content -->
+    <%- body %>
+
+    <!-- Include the external JavaScript file -->
+    <script src="/audio-control.js"></script>
+</body>
+</html>
